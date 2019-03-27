@@ -48,7 +48,7 @@ func buildCountyCodes(r io.Reader) (map[uint32]string, error) {
 			fmt.Println("Expected 7 columns, got ", len(record))
 			continue
 		}
-		geocodeID, err := strconv.ParseInt(record[0],10,32)
+		geocodeID, err := strconv.ParseInt(record[0], 10, 32)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -88,7 +88,7 @@ func buildCIDRRoot(r io.Reader) (Root, error) {
 			geoID = record[3]
 		}
 		if geoID == "" {
-			fmt.Printf("%+v; skipping\n",record)
+			fmt.Printf("%+v; skipping\n", record)
 			continue
 		}
 		geoIDNum, err := strconv.ParseInt(geoID, 10, 32)
@@ -103,17 +103,17 @@ func buildCIDRRoot(r io.Reader) (Root, error) {
 
 	}
 	// add private networks
-	privateNetworks := []string {
+	privateNetworks := []string{
 		"192.168.0.0/16",
 		"10.0.0.0/8",
 		"172.16.0.0/12",
 	}
-	for _,v := range privateNetworks {
+	for _, v := range privateNetworks {
 		_, local, err := net.ParseCIDR(v)
 		if err != nil {
 			log.Fatal(err)
 		}
-		root.Insert(local,0)
+		root.Insert(local, 0)
 	}
 	root.Complete()
 	return root, nil
